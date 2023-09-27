@@ -24,5 +24,8 @@
     "tailwindcss": "latest",
     "eslint": "latest",
     "eslint-config-next": "latest"
+  },
+  "engines": {
+    "node": ">=16.14.0"
   }
 }
