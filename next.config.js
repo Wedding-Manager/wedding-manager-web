@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
 
-module.exports = nextConfig
+const config = require("config");
+const BACKEND_BASE_URL = config.get("BACKEND_CONFIG.BASE_URL");
+
+const nextConfig = {
+  env: {
+    BACKEND_BASE_URL,
+  },
+};
+
+module.exports = nextConfig;

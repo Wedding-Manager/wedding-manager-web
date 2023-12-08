@@ -1,0 +1,5 @@
+{
+    "BACKEND_CONFIG": {
+        "BASE_URL": "BE_BASE_URL"
+    }
+}
