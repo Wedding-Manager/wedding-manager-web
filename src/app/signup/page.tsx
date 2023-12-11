@@ -1,4 +1,5 @@
 "use client";
+import CustomInput from "@/app/components/form-item/page";
 import { Child, UserData } from "@/types/signup";
 import api from "@/utils/api";
 import Script from "next/script";
@@ -41,19 +42,20 @@ function SignUp() {
       </Script>
       <form onSubmit={handleSubmit(handleSignUpSubmit)}>
         <section id="self-details">
-          <div>
-            <label>Name</label>
-            <input
-              {...register("name", {
-                required: {
-                  value: true,
-                  message: "Name is required",
-                },
-              })}
-              placeholder="enter name"
-              className="border-solid border-2 border-indigo-600"
-            />
-          </div>
+          <CustomInput
+            isInvalid={!!errors?.name}
+            errorMessage={errors?.name?.message}
+            label={"Name"}
+            {...register("name", {
+              required: {
+                value: true,
+                message: "Name is required",
+              },
+            })}
+            placeholder="enter name"
+            className="border-solid border-2 border-indigo-600"
+          />
+
           <div>
             <label>SurName</label>
             <input
