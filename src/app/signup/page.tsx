@@ -1,10 +1,11 @@
 "use client";
-import CustomInput from "@/app/components/form-item/page";
+import CustomInput from "@/app/components/input/page";
 import { Child, UserData } from "@/types/signup";
 import api from "@/utils/api";
 import Script from "next/script";
 import React, { BaseSyntheticEvent, FormEvent } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
+import DropDown from "../components/dropdown/page";
 
 function SignUp() {
   const {
@@ -35,6 +36,7 @@ function SignUp() {
     }
     console.log("FORM_DATA", data);
   };
+  console.log("watching===", watch());
   return (
     <div>
       <Script id="sign-up">
@@ -55,20 +57,34 @@ function SignUp() {
             placeholder="enter name"
             className="border-solid border-2 border-indigo-600"
           />
+          <CustomInput
+            isInvalid={!!errors?.name}
+            errorMessage={errors?.name?.message}
+            label={"SurName"}
+            {...register("surname", {
+              required: {
+                value: true,
+                message: "Name is required",
+              },
+            })}
+            placeholder="Enter"
+            className="border-solid border-2 border-indigo-600"
+          />
+          <DropDown
+            control={control as unknown as Control<FieldValues>}
+            name="gender"
+            options={[
+              {
+                label: "Male",
+                value: "male",
+              },
+              {
+                label: "Female",
+                value: "female",
+              },
+            ]}
+          />
 
-          <div>
-            <label>SurName</label>
-            <input
-              {...register("surname", {
-                required: {
-                  value: true,
-                  message: "Name is required",
-                },
-              })}
-              placeholder="enter name"
-              className="border-solid border-2 border-indigo-600"
-            />
-          </div>
           <div>
             <label>Gender</label>
             <select
