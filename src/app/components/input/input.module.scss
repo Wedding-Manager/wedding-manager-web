@@ -1,11 +1,13 @@
-.input-container {
-  position: "relative" !important;
-  height: "fit-content";
-  width: "fit-content";
+.custom-input {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding-left: 10px;
+  height: 35px;
+  width: 50%;
 }
-
-.input-error-container {
-  position: "absolute" !important;
-  top: 10%;
-  right: 0;
+.custom-input:focus {
+  border: 1px solid black;
+}
+.custom-input::placeholder {
+  color: #888888;
 }

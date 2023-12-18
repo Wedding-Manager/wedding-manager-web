@@ -30,7 +30,11 @@ const CustomInput = forwardRef(
               </div>
             </div>
           )}
-          <input ref={ref} {...rest} />
+          <input
+            ref={ref}
+            {...rest}
+            className={inputStyles?.["custom-input"]}
+          />
         </div>
       </div>
     );

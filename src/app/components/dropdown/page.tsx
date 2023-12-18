@@ -1,5 +1,9 @@
 import React from "react";
-import Select, { ContainerProps, components } from "react-select";
+import Select, {
+  ContainerProps,
+  ValueContainerProps,
+  components,
+} from "react-select";
 import { customDropDownStyles } from "./constants";
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { InfoCircle } from "iconsax-react";
@@ -11,39 +15,45 @@ const DropDown = (props: {
   options: { label: string; value: string }[];
   isInValid?: boolean;
   errorMessage?: string;
+  label: string;
 }) => {
-  const SelectContainer = ({ children, ..._props }: ContainerProps<any>) => {
+  const ValueContainer = ({
+    children,
+    ..._props
+  }: ValueContainerProps<any>) => {
     return (
-      <div>
-        <components.ValueContainer {..._props}>
-          {!props.isInValid && (
-            <div className={inputStyles["input-error-container"]}>
-              <div className={`tooltip`}>
-                <InfoCircle size="12" color="red" />
-                <span className="tooltiptext">{"test"}</span>
-              </div>
-            </div>
-          )}
-          {children}
-        </components.ValueContainer>
-      </div>
+      <components.ValueContainer {..._props}>
+        {children}
+        {props.isInValid && (
+          <span className={`tooltip`}>
+            <InfoCircle size="12" color="red" />
+            <span className="tooltiptext">{"test"}</span>
+          </span>
+        )}
+      </components.ValueContainer>
     );
   };
   return (
     <Controller
       control={props.control}
       name={props.name}
-      render={({ field: { onChange, onBlur, value, ref } }) => (
-        <Select
-          ref={ref}
-          options={props.options}
-          styles={customDropDownStyles}
-          onChange={onChange}
-          onBlur={onBlur}
-          value={value}
-          components={{ SelectContainer }}
-        />
-      )}
+      render={({ field: { onChange, onBlur, value, ref } }) => {
+        return (
+          <div>
+            <div>{props?.label}</div>
+            <Select
+              ref={ref}
+              options={props.options}
+              styles={customDropDownStyles}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+              isSearchable={false}
+              components={{ ValueContainer }}
+            />
+          </div>
+        );
+      }}
     />
   );
 };

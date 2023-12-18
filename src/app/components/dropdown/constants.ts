@@ -1,24 +1,24 @@
 import { CSSProperties } from "react";
 import { ValueContainer } from "react-select/animated";
 
-const controlStyles: CSSProperties = {
-  border: "1px dotted black",
-};
+const controlStyles: CSSProperties = {};
 const containerStyles: CSSProperties = {
-  width: "20%",
-  border: "1px solid yellow",
+  border: "1px solid black",
   position: "relative",
+  maxWidth: "50%",
 };
 const menuStyles: CSSProperties = {
-  border: "1px solid red",
+  border: "1px solid black",
 };
 const valueContainerStyles: CSSProperties = {
   position: "relative",
+  display: "flex",
+  whiteSpace: "nowrap",
 };
 
 export const customDropDownStyles = {
   control: (base: any) => ({ ...base, ...controlStyles }),
   container: (base: any) => ({ ...base, ...containerStyles }),
   menu: (base: any) => ({ ...base, ...menuStyles }),
-  ValueContainer: (base: any) => ({ ...base, ...valueContainerStyles }),
+  valueContainer: (base: any) => ({ ...base, ...valueContainerStyles }),
 };
