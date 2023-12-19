@@ -8,6 +8,7 @@ import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
 import DropDown from "../../components/dropdown";
 import UserLookup from "../../components/look-up";
 import SubmitButton from "../../components/button";
+import { motion } from "framer-motion";
 
 function SignUp() {
   const {
@@ -234,9 +235,16 @@ function SignUp() {
             </div>
           </div>
         </section>
-        <div className=" px-10 flex justify-center w-full">
+        <motion.div
+          className=" px-10 flex justify-center w-full"
+          whileHover={{
+            scale: 1.1,
+            textShadow: "0px 0px 8px rgb(255,255,255)",
+            boxShadow: "0px 0px 8px rgb(255,255,255)",
+          }}
+        >
           <SubmitButton />
-        </div>
+        </motion.div>
       </form>
     </div>
   );
