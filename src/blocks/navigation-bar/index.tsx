@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../components/logos/app-logo/page";
+import Logo from "../../components/logos/app-logo";
 import NavItem from "./nav-item/page";
 
 function NavigationBar(): JSX.Element {

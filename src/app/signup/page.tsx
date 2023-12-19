@@ -1,13 +1,13 @@
 "use client";
-import CustomInput from "@/app/components/input/page";
+import CustomInput from "@/components/input";
 import { Child, UserData } from "@/types/signup";
 import api from "@/utils/api";
 import Script from "next/script";
 import React, { BaseSyntheticEvent, FormEvent } from "react";
 import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
-import DropDown from "../components/dropdown/page";
-import UserLookup from "../components/look-up/page";
-import SubmitButton from "../components/button/page";
+import DropDown from "../../components/dropdown";
+import UserLookup from "../../components/look-up";
+import SubmitButton from "../../components/button";
 
 function SignUp() {
   const {

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 
 function Notification(props: { type: "error" | "success"; message: string }) {
