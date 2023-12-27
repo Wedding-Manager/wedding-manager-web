@@ -7,6 +7,7 @@ import AsyncSelect from "react-select/async";
 import { Control, Controller, FieldValues } from "react-hook-form";
 import { customDropDownStyles } from "../dropdown/constants";
 import api from "@/utils/api";
+import { customLookUpStyles } from "./constants";
 
 const promiseOptions = async (inputValue: string) => {
   try {
@@ -43,7 +44,7 @@ function UserLookup(props: {
             <div>{props.label}</div>
             <AsyncSelect
               ref={ref}
-              styles={customDropDownStyles}
+              styles={customLookUpStyles}
               onChange={onChange}
               onBlur={onBlur}
               value={value}

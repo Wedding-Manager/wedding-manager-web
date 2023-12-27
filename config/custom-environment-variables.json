@@ -1,5 +1,8 @@
 {
     "BACKEND_CONFIG": {
         "BASE_URL": "BE_BASE_URL"
+    },
+    "AUTH": {
+        "ACCESS_TOKEN": "WM_ACCESS_TOKEN_KEY"
     }
 }

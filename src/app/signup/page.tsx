@@ -9,6 +9,7 @@ import DropDown from "../../components/dropdown";
 import UserLookup from "../../components/look-up";
 import SubmitButton from "../../components/button";
 import { motion } from "framer-motion";
+import { parseCookies } from "nookies";
 
 function SignUp() {
   const {
@@ -41,9 +42,10 @@ function SignUp() {
         children: data?.family?.children?.map((c) => c?.value),
       },
     };
-    const endpoint = `/v1/user`;
+    const endpoint = `/api/sign-up`;
     try {
-      const request = await api().post(endpoint, payload);
+      const request = await api({ internal: true }).post(endpoint, payload);
+
       console.log("FORM_DATA", request);
     } catch (err) {
       console.log("ERROR", err);
@@ -51,7 +53,7 @@ function SignUp() {
   };
 
   return (
-    <div>
+    <div className="mb-6">
       <Script id="sign-up">
         <title>Sign up</title>
       </Script>
