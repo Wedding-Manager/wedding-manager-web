@@ -3,6 +3,7 @@
         "BASE_URL": "http://localhost:2000"
     },
     "AUTH": {
-        "ACCESS_TOKEN": "WMA"
+        "ACCESS_TOKEN": "WMA",
+        "USER_ID": "WMI"
     }
 }

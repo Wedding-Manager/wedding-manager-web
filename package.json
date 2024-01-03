@@ -22,7 +22,8 @@
     "react-phone-input-2": "^2.15.1",
     "react-select": "^5.8.0",
     "reactjs-popup": "^2.0.6",
-    "sass": "^1.69.5"
+    "sass": "^1.69.5",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/config": "^3.3.3",

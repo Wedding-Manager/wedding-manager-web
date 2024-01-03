@@ -9,21 +9,22 @@ export async function POST(request: Request) {
     const payload = await request?.json();
     const singupRequest = await api().post(signupEndpoint, payload);
 
-    const cookies = buildCookie({
+    const authCookie = buildCookie({
       name: process.env.ACCESS_TOKEN_KEY!,
       value: singupRequest?.headers?.["x-auth-token"],
     });
+    const userIdCookie = buildCookie({
+      name: process.env.USER_ID_KEY!,
+      value: singupRequest?.data?.id,
+    });
 
-    return NextResponse.json(
-      { data: singupRequest?.data },
-      {
-        status: 200,
-        headers: {
-          ...singupRequest?.headers,
-          "Set-Cookie": cookies,
-        } as unknown as HeadersInit,
-      }
-    );
+    return NextResponse.json(singupRequest?.data, {
+      status: 200,
+      headers: {
+        ...singupRequest?.headers,
+        "Set-Cookie": [authCookie, userIdCookie],
+      } as unknown as HeadersInit,
+    });
   } catch (err: any) {
     return NextResponse.json(
       { error: err?.response?.data },

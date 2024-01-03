@@ -1,6 +1,7 @@
 "use client";
 import SubmitButton, { SignupButton } from "@/components/button";
 import CustomInput from "@/components/input";
+import { useGlobalStore } from "@/stores/global";
 import { handleLoginSubmit } from "@/stores/login";
 import { LoginData, LoginResponse } from "@/types/login";
 import React, { Ref, useRef, useState } from "react";
@@ -14,23 +15,28 @@ function Login() {
     formState: { errors },
     handleSubmit,
   } = useForm<LoginData>();
-  const [userData, setUserData] = useState<LoginResponse>();
+  const user = useGlobalStore();
+  const { setUser, userName } = user as any;
+
   const loginInfoPopup = useRef();
   const openTooltip = () => (loginInfoPopup!.current! as any).open();
+  const closeToolTip = () => (loginInfoPopup!.current! as any).close();
 
   return (
     <div>
       <Popup ref={loginInfoPopup as unknown as Ref<PopupActions>}>
-        <div>{`Welcome Back ${userData?.name}`}</div>
+        <div className={`bg-lime-500`}>{`Welcome Back ${userName}`}</div>
       </Popup>
 
       <form
         onSubmit={handleSubmit((_) =>
           handleLoginSubmit(_, {
-            onSuccess: (data) => {
-              console.log("TEST");
-              setUserData(data);
+            onSuccess: async (data) => {
+              setUser({ userName: data?.name, userId: data?.id, userRole: "" });
               openTooltip();
+              setTimeout(() => {
+                closeToolTip?.();
+              }, 2000);
             },
           })
         )}

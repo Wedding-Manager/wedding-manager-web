@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("Access-Control-Allow-Origin", "*");
   requestHeaders.set("X-Auth-Token", ACCESS_TOKEN);
-  console.log("ACCESS_TOKEN", ACCESS_TOKEN, request.url);
+
   const response = NextResponse.next({
     request: {
       headers: requestHeaders,

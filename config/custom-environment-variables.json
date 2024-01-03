@@ -3,6 +3,7 @@
         "BASE_URL": "BE_BASE_URL"
     },
     "AUTH": {
-        "ACCESS_TOKEN": "WM_ACCESS_TOKEN_KEY"
+        "ACCESS_TOKEN": "WM_ACCESS_TOKEN_KEY",
+        "USER_ID": "WM_USER_ID_KEY"
     }
 }
