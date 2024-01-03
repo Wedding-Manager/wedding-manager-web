@@ -3,23 +3,23 @@ import { buildCookie } from "@/utils/cookies";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-  const signupEndpoint = "/v1/user";
+  const signupEndpoint = "/v1/login";
 
   try {
     const payload = await request?.json();
-    const singupRequest = await api().post(signupEndpoint, payload);
+    const loginRequest = await api().post(signupEndpoint, payload);
 
     const cookies = buildCookie({
       name: process.env.ACCESS_TOKEN_KEY!,
-      value: singupRequest?.headers?.["x-auth-token"],
+      value: loginRequest?.headers?.["x-auth-token"],
     });
 
     return NextResponse.json(
-      { data: singupRequest?.data },
+      { data: loginRequest?.data },
       {
         status: 200,
         headers: {
-          ...singupRequest?.headers,
+          ...loginRequest?.headers,
           "Set-Cookie": cookies,
         } as unknown as HeadersInit,
       }

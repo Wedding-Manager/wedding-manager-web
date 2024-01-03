@@ -1,6 +1,6 @@
 "use client";
-import { InfoCircle } from "iconsax-react";
-import React, { Fragment, LegacyRef, forwardRef } from "react";
+import { Eye, EyeSlash, InfoCircle } from "iconsax-react";
+import React, { Fragment, LegacyRef, forwardRef, useState } from "react";
 import { UseFormRegister } from "react-hook-form";
 import inputStyles from "./input.module.scss";
 
@@ -17,11 +17,14 @@ const CustomInput = forwardRef(
       >,
     ref: LegacyRef<HTMLInputElement>
   ) => {
-    const { isInvalid, errorMessage, label, ...rest } = props;
+    const { isInvalid, errorMessage, label, type, ...rest } = props;
+    const [showPassword, setShowPassword] = useState<boolean>();
     return (
       <div>
         <div>{label}</div>
-        <div className={inputStyles["input-container"]}>
+        <div
+          className={`flex items-center gap-2 ${inputStyles["input-container"]}`}
+        >
           {isInvalid && (
             <div className={inputStyles["input-error-container"]}>
               <div className={`tooltip`}>
@@ -32,9 +35,25 @@ const CustomInput = forwardRef(
           )}
           <input
             ref={ref}
+            type={type === "password" && showPassword ? "text" : type || "text"}
             {...rest}
             className={inputStyles?.["custom-input"]}
           />
+          {type === "password" && (
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setShowPassword(!showPassword);
+              }}
+            >
+              {showPassword ? (
+                <EyeSlash size="16" color="black" />
+              ) : (
+                <Eye size="16" color="black" />
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

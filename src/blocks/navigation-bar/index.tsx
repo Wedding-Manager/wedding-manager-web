@@ -2,6 +2,9 @@ import React from "react";
 import Logo from "../../components/logos/app-logo";
 import NavItem from "./nav-item/page";
 
+import dynamic from "next/dynamic";
+const UserProfile = dynamic(() => import("./profile/page"), { ssr: false });
+
 function NavigationBar(): JSX.Element {
   return (
     <div
@@ -11,7 +14,7 @@ function NavigationBar(): JSX.Element {
         <Logo />
       </div>
       <div>
-        <NavItem href="/signup" label="Sign Up" />
+        <UserProfile />
       </div>
     </div>
   );
