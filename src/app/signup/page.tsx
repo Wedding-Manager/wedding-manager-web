@@ -237,16 +237,8 @@ function SignUp() {
             </div>
           </div>
         </section>
-        <motion.div
-          className=" px-10 flex justify-center w-full"
-          whileHover={{
-            scale: 1.1,
-            textShadow: "0px 0px 8px rgb(255,255,255)",
-            boxShadow: "0px 0px 8px rgb(255,255,255)",
-          }}
-        >
-          <SubmitButton />
-        </motion.div>
+
+        <SubmitButton />
       </form>
     </div>
   );

@@ -1,15 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useGlobalStore } from "@/stores/global";
+import { fetchUser, useGlobalStore } from "@/stores/global";
+import { User } from "@/types/global";
+
 import { isLogedIn } from "@/utils/run-time";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 
 function UserProfile() {
   const user = useGlobalStore();
   const isUserLogedIn = isLogedIn();
-  const { userName } = user as any;
-  console.log("isUserLogedIn", isUserLogedIn, user, userName);
+  const { userName, setUser } = user;
+
+  useEffect(() => {
+    const updateUser = async () => {
+      const userData: User = await fetchUser();
+      setUser({
+        userId: userData?._id,
+        userName: userData?.name,
+        userRole: userData?.role,
+      });
+    };
+    updateUser();
+  }, []);
 
   return (
     <div>

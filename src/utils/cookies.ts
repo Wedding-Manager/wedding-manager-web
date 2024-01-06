@@ -1,3 +1,5 @@
+import { parseCookies } from "nookies";
+
 export const buildCookie = (cookie: { name: string; value: string }) => {
   const cookieParts = [];
   const maxAge = 31536000000;
@@ -11,4 +13,9 @@ export const buildCookie = (cookie: { name: string; value: string }) => {
   cookieParts.push(`Expires=${timestamp.toUTCString()}`);
 
   return cookieParts.join("; ");
+};
+
+export const getAuthCookie = () => {
+  const cookies = parseCookies();
+  return cookies?.[process.env.ACCESS_TOKEN_KEY!];
 };

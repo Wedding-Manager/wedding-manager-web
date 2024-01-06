@@ -13,7 +13,9 @@ function NavigationBar(): JSX.Element {
       <div>
         <Logo />
       </div>
-      <div>
+      <div className="flex gap-6">
+        <NavItem href={"/weddings/create"} label={"Create Wedding"} />
+        <NavItem href={"/weddings/my-weddings"} label={"My Weddings"} />
         <UserProfile />
       </div>
     </div>
