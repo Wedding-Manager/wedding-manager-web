@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from "react";
 import cardStyles from "./wedding-card.module.scss";
 import Image from "next/image";
@@ -17,9 +18,9 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
               : "/wedding-palceholder.jpeg"
           }
           alt="Avatar"
-          width={70}
-          height={70}
-          style={{ width: "100%", height: "20%" }}
+          width={700}
+          height={100}
+          // style={{ width: "100%", height: "20%" }}
         />
 
         <div className={`${cardStyles?.["container"]}`}>
