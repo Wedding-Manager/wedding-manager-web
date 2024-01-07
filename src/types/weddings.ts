@@ -10,7 +10,7 @@ export type WeddingFormData = {
   wedding_date: string;
   avenue: string;
   is_public: boolean;
-  photo_gallery: UploadImageFormData;
+  photo_gallery: UploadImageFormData[];
 };
 
 export type MyWeddingData = {

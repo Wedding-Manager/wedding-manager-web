@@ -9,6 +9,10 @@ export const weddingSubmitHandler = async (data: WeddingFormData) => {
     ...data,
     groom: data?.groom?.data?._id,
     bribe: data?.bribe?.data?._id,
+    photo_gallery: data?.photo_gallery?.map((p) => {
+      const { id, ...rest } = p;
+      return { ...(rest || {}) };
+    }),
   };
   try {
     const authCookie = getAuthCookie();
