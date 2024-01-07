@@ -1,5 +1,7 @@
 $primary-color: #64ff00;
+$navbar-height: 83px;
 
 :export {
   primaryColor: $primary-color;
+  navbarHeight: $navbar-height;
 }

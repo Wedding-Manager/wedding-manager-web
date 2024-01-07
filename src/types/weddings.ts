@@ -1,4 +1,5 @@
 import { User } from "./global";
+import { UploadImageFormData } from "./upload-files";
 
 type UserOption = { label: string; value: string; data: User };
 
@@ -8,6 +9,8 @@ export type WeddingFormData = {
   groom: UserOption;
   wedding_date: string;
   avenue: string;
+  is_public: boolean;
+  photo_gallery: UploadImageFormData;
 };
 
 export type MyWeddingData = {
@@ -15,8 +18,8 @@ export type MyWeddingData = {
   title: string;
   bribe: User;
   groom: User;
-  food_gallery: string[];
-  photo_gallery: string[];
+  food_gallery: UploadImageFormData[];
+  photo_gallery: UploadImageFormData[];
   pending_invitations: string[];
   guests: string[];
   wedding_date: string;
@@ -24,5 +27,7 @@ export type MyWeddingData = {
   created_by: string;
   created_on: string;
   updated_on: string;
+  is_public: boolean;
+
   // Add other wedding properties if needed
 };

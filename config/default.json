@@ -5,5 +5,9 @@
     "AUTH": {
         "ACCESS_TOKEN": "WMA",
         "USER_ID": "WMI"
+    },
+    "SECRET_KEYS": {
+        "CLOUDINARY_PRESET_NAME": "WeddingManager",
+        "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME": "shekhar-kummari"
     }
 }

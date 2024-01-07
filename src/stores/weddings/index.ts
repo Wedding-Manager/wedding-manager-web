@@ -39,6 +39,21 @@ export const fetchMyWeddings = async (
     });
   }
 };
+export const fetchPublicWeddings = async (
+  authCookie: any
+): Promise<MyWeddingData[]> => {
+  const weddingsEndpoint = `/v1/weddings/public`;
+
+  try {
+    const weddingRequest = await api({ authCookie }).get(weddingsEndpoint);
+
+    return weddingRequest?.data;
+  } catch {
+    return new Promise((resolve) => {
+      resolve([] as unknown as MyWeddingData[]);
+    });
+  }
+};
 
 export const useWeddingsStore = create<globalStoreType>((set) => {
   return {

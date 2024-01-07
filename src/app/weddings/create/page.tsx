@@ -1,8 +1,10 @@
 "use client";
 
 import SubmitButton from "@/components/button";
+import CustomCheckBox from "@/components/checkbox/page";
 import CustomInput from "@/components/input";
 import UserLookup from "@/components/look-up";
+import UploadImage from "@/components/upload/page";
 import { weddingSubmitHandler } from "@/stores/weddings";
 import { WeddingFormData } from "@/types/weddings";
 
@@ -10,12 +12,14 @@ import React from "react";
 import { Control, FieldValues, useForm } from "react-hook-form";
 
 function CreateWedding(): JSX.Element {
+  const formMethods = useForm<WeddingFormData>();
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<WeddingFormData>();
+  } = formMethods;
+
   return (
     <div>
       <div>
@@ -70,6 +74,20 @@ function CreateWedding(): JSX.Element {
             placeholder="Enter"
             className="border-solid border-2 border-indigo-600"
           />
+          <CustomCheckBox
+            isInvalid={!!errors?.is_public}
+            errorMessage={errors?.is_public?.message}
+            label={"Do you want to share Memories to public"}
+            {...register("is_public", {
+              required: {
+                value: false,
+                message: "Avenue  is required",
+              },
+            })}
+            placeholder="Enter"
+            className="border-solid border-2 border-indigo-600"
+          />
+          <UploadImage formMethods={formMethods} parentName="photo_gallery" />
           <div>
             <SubmitButton />
           </div>

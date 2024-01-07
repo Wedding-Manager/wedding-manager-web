@@ -1,22 +1,23 @@
-"use client";
+import WeddingCard from "@/blocks/weddings/wedding-card/page";
+import { fetchPublicWeddings } from "@/stores/weddings";
+import React, { Fragment } from "react";
+import { cookies } from "next/headers";
 
-import { motion } from "framer-motion";
+const MyWeddings = async () => {
+  const authCookie = cookies().get(process.env.ACCESS_TOKEN_KEY!)?.value;
+  const myWeddings = await fetchPublicWeddings(authCookie);
 
-export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center  p-24">
-      <motion.div
-        animate={{ fontSize: "50px", color: "purple" }}
-        initial={true}
-      >
-        Wedding Manager
-      </motion.div>
-      <motion.div
-        className="text-lg mt-20	 text-fuchsia-500"
-        animate={{ color: "rgb(217 70 239)" }}
-      >
-        Crafting excellence, your website is in the making. Patience, please.
-      </motion.div>
-    </main>
+    <div className="flex flex-col items-center  w-full px-20 ">
+      {myWeddings?.map((wedding) => {
+        return (
+          <Fragment key={wedding?._id}>
+            <WeddingCard wedding={wedding} />
+          </Fragment>
+        );
+      })}
+    </div>
   );
-}
+};
+
+export default MyWeddings;

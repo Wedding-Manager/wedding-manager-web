@@ -8,7 +8,7 @@ const MyWeddings = async () => {
   const myWeddings = await fetchMyWeddings(authCookie);
 
   return (
-    <div className="grid grid-cols-auto  w-full px-20 ">
+    <div className="flex flex-col items-center  w-full px-20 ">
       {myWeddings?.map((wedding) => {
         return (
           <Fragment key={wedding?._id}>
