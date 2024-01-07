@@ -3,7 +3,9 @@ import React from "react";
 import cardStyles from "./wedding-card.module.scss";
 import Image from "next/image";
 import { MyWeddingData } from "@/types/weddings";
-import { CldImage } from "next-cloudinary";
+import dynamic from "next/dynamic";
+
+const ClgImg = dynamic(() => import("../clgI-image/page"), { ssr: false });
 
 function WeddingCard(props: { wedding: MyWeddingData }) {
   const { wedding } = props;
@@ -11,17 +13,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
     <div className={`${cardStyles?.["card-wrapper"]}`}>
       <h2>{wedding?.title}</h2>
       <div className={`${cardStyles?.["card"]}`}>
-        <Image
-          src={
-            wedding?.photo_gallery?.[0]?.url?.length
-              ? wedding?.photo_gallery?.[0]?.url
-              : "/wedding-palceholder.jpeg"
-          }
-          alt="Avatar"
-          width={700}
-          height={100}
-          // style={{ width: "100%", height: "20%" }}
-        />
+        <ClgImg url={wedding?.photo_gallery?.[0]?.url} />
 
         <div className={`${cardStyles?.["container"]}`}>
           <div className="flex gap-5">
