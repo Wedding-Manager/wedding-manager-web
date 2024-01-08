@@ -6,7 +6,7 @@ import { MyWeddingPageProps } from "@/types/weddings";
 import { cookies } from "next/headers";
 import React from "react";
 
-const MyWedding = async (props: PageProps & MyWeddingPageProps) => {
+const MyWedding = async (props: PageProps & MyWeddingPageProps & any) => {
   const { params } = props;
   const { id } = params;
   const authCookie = cookies().get(process.env.ACCESS_TOKEN_KEY!)?.value;
