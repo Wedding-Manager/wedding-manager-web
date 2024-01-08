@@ -4,6 +4,7 @@ import cardStyles from "./wedding-card.module.scss";
 import Image from "next/image";
 import { MyWeddingData } from "@/types/weddings";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const ClgImg = dynamic(() => import("../clgI-image/page"), { ssr: false });
 
@@ -13,7 +14,9 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
     <div className={`${cardStyles?.["card-wrapper"]}`}>
       <h2>{wedding?.title}</h2>
       <div className={`${cardStyles?.["card"]}`}>
-        <ClgImg url={wedding?.photo_gallery?.[0]?.url} />
+        <Link href={`/weddings/my-weddings/${wedding._id}`}>
+          <ClgImg url={wedding?.photo_gallery?.[0]?.url} />
+        </Link>
 
         <div className={`${cardStyles?.["container"]}`}>
           <div className="flex gap-5">
@@ -24,7 +27,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
               </h4>
             </div>
             <div className="flex gap-5">
-              <p>Bribe :</p>
+              <p>Bride :</p>
               <h4>
                 <b>{`${wedding?.bribe?.surname} ${wedding?.bribe?.name}`}</b>
               </h4>

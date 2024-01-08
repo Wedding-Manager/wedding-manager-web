@@ -29,3 +29,8 @@ export type User = {
   created_on: string;
   updated_on: string;
 };
+
+export type PageProps = {
+  params: { [route: string]: string };
+  searchParams: { [query: string]: string };
+};

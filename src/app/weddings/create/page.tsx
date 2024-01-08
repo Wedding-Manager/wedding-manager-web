@@ -7,12 +7,14 @@ import UserLookup from "@/components/look-up";
 import UploadImage from "@/components/upload/page";
 import { weddingSubmitHandler } from "@/stores/weddings";
 import { WeddingFormData } from "@/types/weddings";
+import { useRouter } from "next/navigation";
 
 import React from "react";
 import { Control, FieldValues, useForm } from "react-hook-form";
 
 function CreateWedding(): JSX.Element {
   const formMethods = useForm<WeddingFormData>();
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -23,7 +25,13 @@ function CreateWedding(): JSX.Element {
   return (
     <div>
       <div>
-        <form onSubmit={handleSubmit(weddingSubmitHandler)}>
+        <form
+          onSubmit={handleSubmit((_) =>
+            weddingSubmitHandler(_, () => {
+              router?.push("/");
+            })
+          )}
+        >
           <CustomInput
             isInvalid={!!errors?.title}
             errorMessage={errors?.title?.message}
@@ -45,7 +53,7 @@ function CreateWedding(): JSX.Element {
           <UserLookup
             control={control as unknown as Control<FieldValues>}
             name="bribe"
-            label="Bribe"
+            label="Bride"
           />
           <CustomInput
             isInvalid={!!errors?.wedding_date}

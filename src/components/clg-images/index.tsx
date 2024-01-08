@@ -2,17 +2,19 @@
 import { CldImage } from "next-cloudinary";
 import React from "react";
 
-function ClgImg(props: { url: string }) {
+function ClgImage(props: any) {
   const { url } = props;
   return (
     <CldImage
       width="500"
       height="500"
-      crop="fill"
       src={url}
+      crop="fill"
+      //   removeBackground
+      //   underlay={url}
       alt="Description of my image"
     />
   );
 }
 
-export default ClgImg;
+export default ClgImage;

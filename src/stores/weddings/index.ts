@@ -3,7 +3,10 @@ import { MyWeddingData, WeddingFormData } from "@/types/weddings";
 import api from "@/utils/api";
 import { getAuthCookie } from "@/utils/cookies";
 import { create } from "zustand";
-export const weddingSubmitHandler = async (data: WeddingFormData) => {
+export const weddingSubmitHandler = async (
+  data: WeddingFormData,
+  onSave?: (wedding: { wedding: MyWeddingData }) => void
+) => {
   const weddingEndpoint = `/v1/weddings`;
   const payload = {
     ...data,
@@ -20,7 +23,7 @@ export const weddingSubmitHandler = async (data: WeddingFormData) => {
       weddingEndpoint,
       payload
     );
-    return weddingRequest?.data;
+    return onSave ? onSave(weddingRequest?.data) : weddingRequest?.data;
   } catch {
     return new Promise((resolve) => {
       resolve({} as unknown as User);
@@ -55,6 +58,23 @@ export const fetchPublicWeddings = async (
   } catch {
     return new Promise((resolve) => {
       resolve([] as unknown as MyWeddingData[]);
+    });
+  }
+};
+
+export const fetchWeddingById = async (
+  id: string,
+  config: { authCookie: any }
+): Promise<MyWeddingData> => {
+  try {
+    const weddingEndpoint = `/v1/weddings/my-wedding/${id}`;
+    const weddingRequest = await api({ authCookie: config?.authCookie }).get(
+      weddingEndpoint
+    );
+    return weddingRequest?.data;
+  } catch (err) {
+    return new Promise((resolve) => {
+      resolve({} as unknown as MyWeddingData);
     });
   }
 };

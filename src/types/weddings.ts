@@ -28,6 +28,18 @@ export type MyWeddingData = {
   created_on: string;
   updated_on: string;
   is_public: boolean;
+};
 
-  // Add other wedding properties if needed
+export type MyWeddingPageProps = { props: any };
+
+export type MyWeddingCarouselCardProps = {
+  gallery: UploadImageFormData;
+};
+
+export type MyWeddingCarouselProps = {
+  gallery: UploadImageFormData[];
+};
+
+export type MyWeddingGuestsProps = {
+  weddingId: string;
 };
