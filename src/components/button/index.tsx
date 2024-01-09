@@ -23,7 +23,7 @@ export default function SubmitButton(props: { label?: string }) {
   );
 }
 
-export function SignupButton(): JSX.Element {
+export function SignupButton(props: any): JSX.Element {
   return (
     <Link
       className="border-solid bg-purple-500	 px-10  py-2 text-white mt-6 rounded-md  "

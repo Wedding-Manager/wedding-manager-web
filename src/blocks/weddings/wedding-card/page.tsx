@@ -14,7 +14,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
     <div className={`${cardStyles?.["card-wrapper"]}`}>
       <h2>{wedding?.title}</h2>
       <div className={`${cardStyles?.["card"]}`}>
-        <Link href={`/weddings/my-weddings/${wedding._id}`}>
+        <Link href={`/weddings/${wedding._id}`}>
           <ClgImg url={wedding?.photo_gallery?.[0]?.url} />
         </Link>
 

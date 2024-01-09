@@ -15,9 +15,8 @@ export const handleLoginSubmit = async (
       ...data,
     });
     onSuccess?.(loginRequest?.data);
-    console.log("login", loginRequest?.data, typeof loginRequest?.data);
   } catch (error) {
-    console.log("ERROR_LOGIN", error);
+    console.error("ERROR_LOGIN", error);
     onError?.(error);
   }
 };

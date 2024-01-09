@@ -8,6 +8,7 @@ import React, { Ref, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import Popup from "reactjs-popup";
 import { PopupActions } from "reactjs-popup/dist/types";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function Login() {
   const {
@@ -17,6 +18,10 @@ function Login() {
   } = useForm<LoginData>();
   const user = useGlobalStore();
   const { setUser, userName } = user as any;
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams?.get("next");
 
   const loginInfoPopup = useRef();
   const openTooltip = () => (loginInfoPopup!.current! as any).open();
@@ -34,9 +39,15 @@ function Login() {
             onSuccess: async (data) => {
               setUser({ userName: data?.name, userId: data?.id, userRole: "" });
               openTooltip();
+
               setTimeout(() => {
                 closeToolTip?.();
               }, 2000);
+              if (nextUrl?.length) {
+                router.push(nextUrl);
+              } else {
+                router.push("/");
+              }
             },
           })
         )}
@@ -70,7 +81,22 @@ function Login() {
         />
         <div className="flex items-centers gap-2">
           <SubmitButton label="Login" />
-          <SignupButton />
+          <button
+            className="border-solid bg-purple-500	 px-10  py-2 text-white mt-6 rounded-md  "
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+
+              router.push(
+                window?.location?.search?.length
+                  ? `/signup${window?.location?.search}`
+                  : `/signup`
+              );
+            }}
+          >
+            SignUp
+          </button>
+          {/* ?next=${window?.location?.pathname}${window?.location?.search}` */}
         </div>
       </form>
     </div>

@@ -1,16 +1,34 @@
 import MyWeddingCarousel from "@/blocks/weddings/my-wedding/carousel";
-import MyWeddingGuests from "@/blocks/weddings/my-wedding/guests";
-import { fetchWeddingById } from "@/stores/weddings";
+import { fetchUserWeddingStatus, fetchWeddingById } from "@/stores/weddings";
 import { PageProps } from "@/types/global";
 import { MyWeddingPageProps } from "@/types/weddings";
+import dynamic from "next/dynamic";
 import { cookies } from "next/headers";
 import React from "react";
 
+const MyWeddingGuests = dynamic(
+  () => import("@/blocks/weddings/my-wedding/guests"),
+  {
+    ssr: false,
+  }
+);
+
 const MyWedding = async (props: PageProps & MyWeddingPageProps & any) => {
-  const { params } = props;
+  const { params, searchParams } = props;
   const { id } = params;
+  const { guest_email, guest_id } = searchParams;
   const authCookie = cookies().get(process.env.ACCESS_TOKEN_KEY!)?.value;
+  const userId = cookies().get(process.env.USER_ID_KEY!)?.value;
   const wedding = await fetchWeddingById(id, { authCookie: authCookie });
+
+  const userWeddingInvitations = await fetchUserWeddingStatus({
+    weddingId: id,
+    authCookie,
+    query:
+      guest_id || userId
+        ? `guest_id=${guest_id || userId}`
+        : `email=${guest_email}`,
+  });
 
   return (
     <div className={`p-6`}>
@@ -21,7 +39,11 @@ const MyWedding = async (props: PageProps & MyWeddingPageProps & any) => {
         <MyWeddingCarousel gallery={wedding?.photo_gallery} />
       </div>
       <div>
-        <MyWeddingGuests weddingId={id} />
+        <MyWeddingGuests
+          userWeddingInvitations={userWeddingInvitations}
+          searchParams={searchParams}
+          weddingId={id}
+        />
       </div>
     </div>
   );

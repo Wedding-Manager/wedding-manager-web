@@ -1,15 +1,16 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import CustomInput from "@/components/input";
-import { Child, UserData } from "@/types/signup";
+import { UserData } from "@/types/signup";
 import api from "@/utils/api";
 import Script from "next/script";
-import React, { BaseSyntheticEvent, FormEvent } from "react";
+import React, { BaseSyntheticEvent, FormEvent, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
 import DropDown from "../../components/dropdown";
 import UserLookup from "../../components/look-up";
 import SubmitButton from "../../components/button";
-import { motion } from "framer-motion";
-import { parseCookies } from "nookies";
+import { getEmailfromUrl } from "@/utils/query";
 
 function SignUp() {
   const {
@@ -17,8 +18,12 @@ function SignUp() {
     register,
     watch,
     control,
+    setValue,
     formState: { errors },
   } = useForm<UserData>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const nextUrl = searchParams?.get("next");
   const { fields, append } = useFieldArray({
     name: "family.children",
     control,
@@ -45,12 +50,21 @@ function SignUp() {
     const endpoint = `/api/sign-up`;
     try {
       const request = await api({ internal: true }).post(endpoint, payload);
-
-      console.log("FORM_DATA", request);
+      if (nextUrl?.length) {
+        router.push(nextUrl);
+      } else {
+        router.push("/");
+      }
     } catch (err) {
       console.log("ERROR", err);
     }
   };
+  useEffect(() => {
+    if (nextUrl?.length) {
+      const email = getEmailfromUrl(nextUrl);
+      setValue("email", email);
+    }
+  }, [nextUrl]);
 
   return (
     <div className="mb-6">
@@ -142,8 +156,8 @@ function SignUp() {
               className="border-solid border-2 border-indigo-600"
             />
             <CustomInput
-              isInvalid={!!errors?.mobile}
-              errorMessage={errors?.mobile?.message}
+              isInvalid={!!errors?.email}
+              errorMessage={errors?.email?.message}
               label={"Email"}
               {...register("email", {
                 required: {
@@ -151,6 +165,7 @@ function SignUp() {
                   message: "Eamil is required",
                 },
               })}
+              disabled={!!getEmailfromUrl(nextUrl || "")?.length}
               type="email"
               placeholder="Enter"
               className="border-solid border-2 border-indigo-600"

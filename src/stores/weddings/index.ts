@@ -1,5 +1,10 @@
 import { User, globalStoreType } from "@/types/global";
-import { MyWeddingData, WeddingFormData } from "@/types/weddings";
+import {
+  Invitation,
+  InvitationStatus,
+  MyWeddingData,
+  WeddingFormData,
+} from "@/types/weddings";
 import api from "@/utils/api";
 import { getAuthCookie } from "@/utils/cookies";
 import { create } from "zustand";
@@ -79,13 +84,60 @@ export const fetchWeddingById = async (
   }
 };
 
+export const fetchInvitations = async (
+  weddingId: string
+): Promise<Invitation[]> => {
+  const guestEndpoint = `/v1/invitation/wedding/${weddingId}/guests`;
+  try {
+    const authCookie = getAuthCookie();
+    const guestsRequest = await api({ authCookie }).get(guestEndpoint);
+    return guestsRequest?.data as Invitation[];
+  } catch (err) {
+    console.log("ERROR", err);
+    return [];
+  }
+};
+
+export const fetchUserWeddingStatus = async (config: {
+  weddingId: String;
+  query: string;
+  authCookie: any;
+}) => {
+  const { weddingId, query, authCookie } = config;
+  const invitationEndpoint = `/v1/invitation/wedding/${weddingId}/guests/status?${query}`;
+  try {
+    const statusReq = await api({ authCookie }).get(invitationEndpoint);
+    return statusReq?.data;
+  } catch {
+    return [];
+  }
+};
+
+export const upadateTheInvitationStatus = async (args: {
+  weddingId: string;
+  payload: { status: InvitationStatus; reason?: string };
+}): Promise<any> => {
+  const { weddingId, payload } = args;
+  const authCookie = getAuthCookie();
+  const invitationStatusEndpoint = `/v1/invitation/wedding/${weddingId}/guests/status`;
+  try {
+    const request = await api({ authCookie }).post(
+      invitationStatusEndpoint,
+      payload
+    );
+    return request?.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
 export const useWeddingsStore = create<globalStoreType>((set) => {
   return {
     userId: "",
     userName: "",
     userRole: "",
     setUser: (data) => {
-      console.log("data", data);
       set(() => ({ ...(data || {}) }));
     },
   };

@@ -42,4 +42,19 @@ export type MyWeddingCarouselProps = {
 
 export type MyWeddingGuestsProps = {
   weddingId: string;
+  searchParams: { [query: string]: string };
+  userWeddingInvitations?: Invitation[];
+};
+export type InvitationStatus = "invited" | "accepted" | "rejected" | "";
+
+export type Invitation = {
+  _id: string;
+  guest_id?: User;
+  wedding_id: string;
+  created_on: string;
+  updated_on: string;
+  email?: string;
+  no_of_antendees: number;
+  status: InvitationStatus;
+  __v: number;
 };
