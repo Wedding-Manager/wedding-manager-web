@@ -11,6 +11,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 import { GUSET_TABLE_COLUMNS } from "./constants";
 import { isLogedIn } from "@/utils/run-time";
+import InvitationModal from "../../invitation-modal/page";
 
 function MyWeddingGuests(props: MyWeddingGuestsProps) {
   const { weddingId, userWeddingInvitations } = props;
@@ -23,6 +24,7 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
     searchParam?.get("guest_id")?.length ||
     searchParam?.get("guest_email")?.length;
   const [invitations, setInvitations] = useState<Invitation[]>();
+  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState<boolean>();
   useEffect(() => {
     const updateGuests = async () => {
       const guests = await fetchInvitations(weddingId);
@@ -91,7 +93,7 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
               e.stopPropagation();
               e.preventDefault();
               if (isLogedIn()) {
-                console.log("TOBE _aded");
+                setIsInvitationModalOpen(true);
               }
             }}
           >
@@ -127,6 +129,13 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
           );
         })}
       </table>
+      <InvitationModal
+        isModalOpen={isInvitationModalOpen!}
+        setIsModalOpen={(open) => setIsInvitationModalOpen(open)}
+        weddingContext={{
+          weddingId: weddingId,
+        }}
+      />
     </div>
   );
 }

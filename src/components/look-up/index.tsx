@@ -33,6 +33,7 @@ function UserLookup(props: {
   label: string;
   isInValid?: boolean;
   errorMessage?: string;
+  containerStyles?: any;
 }) {
   return (
     <Controller

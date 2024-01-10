@@ -58,3 +58,9 @@ export type Invitation = {
   status: InvitationStatus;
   __v: number;
 };
+
+export type InvitationModalProps = {
+  isModalOpen: boolean;
+  setIsModalOpen: (status?: boolean) => void;
+  weddingContext: { weddingId: string };
+};

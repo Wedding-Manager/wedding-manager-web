@@ -132,6 +132,34 @@ export const upadateTheInvitationStatus = async (args: {
   }
 };
 
+export const postInvitation = async (weddingContext: {
+  weddingId: string;
+  data: {
+    email?: string;
+    guest?: { label: string; value: string; data: User };
+  };
+}) => {
+  const { data, weddingId } = weddingContext;
+  const payload = {
+    wedding_id: weddingId,
+    ...(data?.guest
+      ? { guest_id: data?.guest?.data?._id }
+      : { email: data?.email }),
+  };
+  try {
+    const invitationEndpoint = `/v1/invitation`;
+    const authCookie = getAuthCookie();
+    const invitationReq = await api({ authCookie }).post(
+      invitationEndpoint,
+      payload
+    );
+    return invitationReq?.data;
+  } catch (error) {
+    console.log("ERROR", error);
+    return null;
+  }
+};
+
 export const useWeddingsStore = create<globalStoreType>((set) => {
   return {
     userId: "",
