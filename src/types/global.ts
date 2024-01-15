@@ -1,7 +1,9 @@
-export type globalStoreType = userBasicData & {
-  setUser: (data: userBasicData) => void;
+export type GlobalStoreType = UserBasicData & {
+  isNavbarMenuOpen: boolean;
+  setIsNavbarMenuOpen: (open: boolean) => void;
+  setUser: (data: UserBasicData) => void;
 };
-export type userBasicData = {
+export type UserBasicData = {
   userName: string;
   userId: string;
   userRole: string;

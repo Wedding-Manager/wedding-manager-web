@@ -6,8 +6,8 @@ function ClgImg(props: { url: string }) {
   const { url } = props;
   return (
     <CldImage
-      width="500"
-      height="500"
+      width="550"
+      height="550"
       crop="fill"
       src={url}
       alt="Description of my image"

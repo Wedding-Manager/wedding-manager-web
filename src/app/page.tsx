@@ -8,7 +8,7 @@ const MyWeddings = async () => {
   const myWeddings = await fetchPublicWeddings(authCookie);
 
   return (
-    <div className="flex flex-col items-center  w-full px-20 ">
+    <div className="flex flex-col items-center  w-full px-2 sm:px-10 md:px-20 ">
       {myWeddings?.map((wedding) => {
         return (
           <Fragment key={wedding?._id}>

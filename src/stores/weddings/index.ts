@@ -1,4 +1,4 @@
-import { User, globalStoreType } from "@/types/global";
+import { User, GlobalStoreType } from "@/types/global";
 import {
   Invitation,
   InvitationStatus,
@@ -160,7 +160,7 @@ export const postInvitation = async (weddingContext: {
   }
 };
 
-export const useWeddingsStore = create<globalStoreType>((set) => {
+export const useWeddingsStore = create<GlobalStoreType>((set) => {
   return {
     userId: "",
     userName: "",

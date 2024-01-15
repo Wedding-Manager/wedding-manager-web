@@ -9,7 +9,7 @@ import Link from "next/link";
 import React, { Fragment, useEffect } from "react";
 import Popup from "reactjs-popup";
 
-function UserProfile() {
+function UserProfileMobile() {
   const user = useGlobalStore();
   const isUserLogedIn = isLogedIn();
   const { userName, setUser } = user;
@@ -27,32 +27,27 @@ function UserProfile() {
   }, []);
 
   return (
-    <div className={`hidden lg:inline-block`}>
+    <Fragment>
       {isUserLogedIn ? (
         <Popup
           trigger={
-            <div className="menu-item mr-[25px]">
+            <div className="menu-item">
               <div className={`	 `}>
-                <div className="whitespace-nowrap text-white px-2 rounded-full border-spacing-1 border-2	">
-                  {userName?.[0]}
+                <div className="whitespace-nowrap text-black  block  py-3 mb-3  text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl	">
+                  {userName}
                 </div>
               </div>{" "}
             </div>
           }
-          position="bottom center"
+          position="right center"
           on={["hover", "click", "focus"]}
           closeOnDocumentClick
           mouseLeaveDelay={300}
           mouseEnterDelay={0}
-          contentStyle={{
-            padding: "0px",
-            border: "none",
-            zIndex: 9999,
-            marginRight: "25px",
-          }}
+          contentStyle={{ padding: "0px", border: "none", zIndex: 9999 }}
           arrow={false}
         >
-          <div className={`w-fit bg-blue-500 text-white px-4 mt-4 py-2 `}>
+          <div className={`w-full bg-blue-500 text-white px-4   py-2 `}>
             <div className="menu-item  cursor-pointer hover:text-black">
               {" "}
               logout
@@ -62,21 +57,21 @@ function UserProfile() {
       ) : (
         <Fragment>
           <Link
-            className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 bg-gray-50 hover:bg-gray-100 text-sm text-gray-900 font-bold  rounded-xl transition duration-200"
-            href="/login"
+            className="block px-4 py-3 mb-3  text-xs text-center font-semibold leading-none bg-gray-50 hover:bg-gray-100 rounded-xl"
+            href={"/login"}
           >
-            Sign In
+            Sign in
           </Link>
           <Link
-            className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200"
+            className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700  rounded-xl"
             href="/signup"
           >
-            Sign up
+            Sign Up
           </Link>
         </Fragment>
       )}
-    </div>
+    </Fragment>
   );
 }
 
-export default UserProfile;
+export default UserProfileMobile;

@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${inter.className} max-h-[100vh]`}>
         <NavigationBar />
         <div
-          className={`px-5  overflow-auto mb-4 pt-4 `}
+          className={`px-5   overflow-auto mb-4 pt-4 `}
           style={{ marginTop: `${variables?.navbarHeight}` }}
         >
           {children}

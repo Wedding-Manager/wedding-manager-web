@@ -1,4 +1,4 @@
-import { User, globalStoreType } from "@/types/global";
+import { User, GlobalStoreType } from "@/types/global";
 import api from "@/utils/api";
 import { getAuthCookie } from "@/utils/cookies";
 import { create } from "zustand";
@@ -17,8 +17,12 @@ export const fetchUser = async (): Promise<User> => {
   }
 };
 
-export const useGlobalStore = create<globalStoreType>((set) => {
+export const useGlobalStore = create<GlobalStoreType>((set) => {
   return {
+    isNavbarMenuOpen: false,
+    setIsNavbarMenuOpen: (isOpen) => {
+      set({ isNavbarMenuOpen: isOpen });
+    },
     userId: "",
     userName: "",
     userRole: "",
