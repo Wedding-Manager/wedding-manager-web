@@ -162,6 +162,10 @@ export const postInvitation = async (weddingContext: {
 
 export const useWeddingsStore = create<GlobalStoreType>((set) => {
   return {
+    isNavbarMenuOpen: false,
+    setIsNavbarMenuOpen: () => {
+      console.log("TEST");
+    },
     userId: "",
     userName: "",
     userRole: "",
