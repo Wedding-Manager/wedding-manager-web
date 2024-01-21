@@ -2,12 +2,16 @@ import { User, GlobalStoreType } from "@/types/global";
 import {
   Invitation,
   InvitationStatus,
+  LikeType,
   MyWeddingData,
   WeddingFormData,
 } from "@/types/weddings";
 import api from "@/utils/api";
+
 import { getAuthCookie } from "@/utils/cookies";
+import { cloneWith, debounce } from "lodash";
 import { create } from "zustand";
+
 export const weddingSubmitHandler = async (
   data: WeddingFormData,
   onSave?: (wedding: { wedding: MyWeddingData }) => void
@@ -159,6 +163,58 @@ export const postInvitation = async (weddingContext: {
     return null;
   }
 };
+
+export const fetchLikes = async (params: { weddingId: string }) => {
+  const { weddingId } = params;
+  const authCookie = getAuthCookie();
+  const likeEndpoint = `/v1/likes/wedding/${weddingId}`;
+
+  try {
+    const likesReq = await api({ authCookie }).get(likeEndpoint);
+    return likesReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    return null;
+  }
+};
+export const updateLikes = async (params: {
+  weddingId: string;
+  payload: { is_liked: boolean };
+}) => {
+  const { weddingId, payload } = params;
+  const authCookie = getAuthCookie();
+  const likeEndpoint = `/v1/likes/wedding/${weddingId}`;
+
+  try {
+    const likesReq = await api({ authCookie }).put(likeEndpoint, payload);
+    return likesReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    return null;
+  }
+};
+
+export const handleLikeChange = debounce(
+  async (params: {
+    isLiked: boolean;
+    weddingId: string;
+    onError?: () => void;
+  }) => {
+    const { weddingId, isLiked, onError } = params;
+    try {
+      const likes: LikeType = await updateLikes({
+        weddingId: weddingId,
+        payload: { is_liked: isLiked },
+      });
+      return likes;
+    } catch (err) {
+      onError?.();
+      console.log("ERROR", err);
+      return null;
+    }
+  },
+  500
+);
 
 export const useWeddingsStore = create<GlobalStoreType>((set) => {
   return {

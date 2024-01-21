@@ -5,7 +5,7 @@ import React from "react";
 import AsyncSelect from "react-select/async";
 
 import { Control, Controller, FieldValues } from "react-hook-form";
-import { customDropDownStyles } from "../dropdown/constants";
+
 import api from "@/utils/api";
 import { customLookUpStyles } from "./constants";
 

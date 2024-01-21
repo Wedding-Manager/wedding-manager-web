@@ -67,7 +67,7 @@ const NavigationBar = () => {
             <NavItem
               href={"/weddings/create"}
               label={"+ Create Wedding"}
-              className="rounded border py-2 bg-blue-500 px-6"
+              className="rounded border py-2 px-6"
             />
           </li>
           <li className="text-gray-300">

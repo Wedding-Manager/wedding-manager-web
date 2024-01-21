@@ -1,15 +1,33 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import React from "react";
-import cardStyles from "./wedding-card.module.scss";
-import Image from "next/image";
-import { MyWeddingData } from "@/types/weddings";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { LikeType, MyWeddingData } from "@/types/weddings";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+
+import { Lovely } from "iconsax-react";
+
+import { fetchLikes, handleLikeChange, updateLikes } from "@/stores/weddings";
 
 const ClgImg = dynamic(() => import("../clgI-image/page"), { ssr: false });
 
 function WeddingCard(props: { wedding: MyWeddingData }) {
   const { wedding } = props;
+  const [likes, setLikes] = useState<LikeType>({
+    count: wedding?.likes?.length,
+  });
+
+  useEffect(() => {
+    const updateLike = async () => {
+      const like: LikeType = await fetchLikes({ weddingId: wedding?._id });
+
+      if (like) setLikes(like);
+    };
+    updateLike();
+  }, []);
+
   return (
     <div
       className={`flex gap-2 w-[-webkit-fill-available] bg-white  my-4  md:flex-row flex-col shadow-inner border rounded-md  `}
@@ -19,7 +37,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
         <text className={`font-bold block md:hidden text-center p-6 `}>
           {wedding?.title}
         </text>
-        <Link href={`/weddings/${wedding._id}`} className="bg-red-500">
+        <Link href={`/weddings/${wedding._id}`} className="">
           <ClgImg url={wedding?.photo_gallery?.[0]?.url} />
         </Link>
         <div className={`p-6  `}>
@@ -50,11 +68,11 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
         </div>
       </div>
       {/* right pane */}
-      <div className={`w-[100%] md:w-[50%] p-2 md:p-6 `}>
+      <div className={`w-[100%] md:w-[50%] p-2 md:p-6 justify-between `}>
         <text className={`font-bold hidden md:block text-center py-4 `}>
           {wedding?.title}
         </text>
-        <div>
+        <div className={`h-[380px]`}>
           <p className={`max-h-[320px] text-ellipsis overflow-auto`}>
             {`
             In the enchanting tapestry of life, our love story unfolded, a
@@ -87,6 +105,44 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
 
             `}
           </p>
+        </div>
+        <div className={`flex items-center`}>
+          <div>
+            <div
+              className={`cursor-pointer`}
+              onClick={async (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                const prevLikes = likes;
+                setLikes((like) => {
+                  return {
+                    ...like,
+                    is_liked: like ? !like?.is_liked : true,
+                    count: like
+                      ? like?.is_liked
+                        ? like?.count - 1
+                        : (like?.count || 0) + 1
+                      : 1,
+                  };
+                });
+                await handleLikeChange({
+                  isLiked: !prevLikes?.is_liked,
+                  weddingId: wedding?._id,
+                  onError: () => {
+                    setLikes(prevLikes);
+                  },
+                });
+              }}
+            >
+              {" "}
+              <Lovely
+                size="32"
+                color={likes?.is_liked ? "red" : "black"}
+                variant={likes?.is_liked ? "Bold" : "Outline"}
+              />
+            </div>
+            <div>{likes?.count || 0}</div>
+          </div>
         </div>
       </div>
     </div>

@@ -28,6 +28,14 @@ export type MyWeddingData = {
   created_on: string;
   updated_on: string;
   is_public: boolean;
+  likes: string[];
+};
+
+export type LikeStatus = "Already updated" | "updated";
+export type LikeType = {
+  count: number;
+  status?: LikeStatus;
+  is_liked?: boolean;
 };
 
 export type MyWeddingPageProps = { props: any };

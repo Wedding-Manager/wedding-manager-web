@@ -24,13 +24,13 @@ function Login() {
   const nextUrl = searchParams?.get("next");
 
   const loginInfoPopup = useRef();
-  const openTooltip = () => (loginInfoPopup!.current! as any).open();
-  const closeToolTip = () => (loginInfoPopup!.current! as any).close();
+  const openTooltip = () => (loginInfoPopup!.current! as any)?.open();
+  const closeToolTip = () => (loginInfoPopup!.current! as any)?.close();
 
   return (
     <div>
       <Popup ref={loginInfoPopup as unknown as Ref<PopupActions>}>
-        <div className={`bg-lime-500`}>{`Welcome Back ${userName}`}</div>
+        <div className={`bg-lime-500 p-6`}>{`Welcome Back ${userName}`}</div>
       </Popup>
 
       <form

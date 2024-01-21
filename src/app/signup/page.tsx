@@ -72,9 +72,9 @@ function SignUp() {
         <title>Sign up</title>
       </Script>
       <form onSubmit={handleSubmit(handleSignUpSubmit)}>
-        <section id="self-details" className="px-10 mt-40">
+        <section id="self-details" className="px-2 md:px-10 mt-20">
           <div className="mb-4 text-xl ">Basic Info</div>
-          <div className="grid grid-cols-2 gap-4 w-full  pl-20 border-2 border-gray-700 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full pl-5  md:pl-20 border-2 border-gray-700 py-10">
             <CustomInput
               isInvalid={!!errors?.name}
               errorMessage={errors?.name?.message}
@@ -200,9 +200,9 @@ function SignUp() {
             />
           </div>
         </section>
-        <section id="family" className="px-10 mt-6">
+        <section id="family" className="px-2 md:px-10 mt-6">
           <div className="mb-4 text-xl ">Family Info</div>
-          <div className="grid grid-cols-2 gap-4 w-full  pl-20 border-2 border-gray-700 py-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full pl-5 md:pl-20 border-2 border-gray-700 py-10">
             <UserLookup
               control={control as unknown as Control<FieldValues>}
               name="family.father"
