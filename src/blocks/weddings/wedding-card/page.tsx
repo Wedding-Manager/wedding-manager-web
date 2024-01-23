@@ -2,31 +2,16 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { LikeType, MyWeddingData } from "@/types/weddings";
+import React from "react";
+import { MyWeddingData } from "@/types/weddings";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 
-import { Lovely } from "iconsax-react";
-
-import { fetchLikes, handleLikeChange, updateLikes } from "@/stores/weddings";
-
+const Like = dynamic(() => import("../like"), { ssr: false });
 const ClgImg = dynamic(() => import("../clgI-image/page"), { ssr: false });
 
 function WeddingCard(props: { wedding: MyWeddingData }) {
   const { wedding } = props;
-  const [likes, setLikes] = useState<LikeType>({
-    count: wedding?.likes?.length,
-  });
-
-  useEffect(() => {
-    const updateLike = async () => {
-      const like: LikeType = await fetchLikes({ weddingId: wedding?._id });
-
-      if (like) setLikes(like);
-    };
-    updateLike();
-  }, []);
 
   return (
     <div
@@ -106,43 +91,8 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
             `}
           </p>
         </div>
-        <div className={`flex items-center`}>
-          <div>
-            <div
-              className={`cursor-pointer`}
-              onClick={async (e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                const prevLikes = likes;
-                setLikes((like) => {
-                  return {
-                    ...like,
-                    is_liked: like ? !like?.is_liked : true,
-                    count: like
-                      ? like?.is_liked
-                        ? like?.count - 1
-                        : (like?.count || 0) + 1
-                      : 1,
-                  };
-                });
-                await handleLikeChange({
-                  isLiked: !prevLikes?.is_liked,
-                  weddingId: wedding?._id,
-                  onError: () => {
-                    setLikes(prevLikes);
-                  },
-                });
-              }}
-            >
-              {" "}
-              <Lovely
-                size="32"
-                color={likes?.is_liked ? "red" : "black"}
-                variant={likes?.is_liked ? "Bold" : "Outline"}
-              />
-            </div>
-            <div>{likes?.count || 0}</div>
-          </div>
+        <div className={``}>
+          <Like wedding={wedding} />
         </div>
       </div>
     </div>

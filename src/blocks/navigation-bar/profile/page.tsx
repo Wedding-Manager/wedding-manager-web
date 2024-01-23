@@ -3,9 +3,11 @@
 
 import { fetchUser, useGlobalStore } from "@/stores/global";
 import { User } from "@/types/global";
+import api from "@/utils/api";
 
 import { isLogedIn } from "@/utils/run-time";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { Fragment, useEffect } from "react";
 import Popup from "reactjs-popup";
 
@@ -13,6 +15,7 @@ function UserProfile() {
   const user = useGlobalStore();
   const isUserLogedIn = isLogedIn();
   const { userName, setUser } = user;
+  const router = useRouter();
 
   useEffect(() => {
     const updateUser = async () => {
@@ -52,12 +55,15 @@ function UserProfile() {
           }}
           arrow={false}
         >
-          <div className={`w-fit bg-blue-500 text-white px-4 mt-4 py-2 `}>
-            <div className="menu-item  cursor-pointer hover:text-black">
-              {" "}
-              logout
-            </div>
-          </div>
+          <button
+            className="hidden lg:inline-block py-2 px-6 bg-blue-500 hover:bg-blue-600 text-sm text-white font-bold rounded-xl transition duration-200  w-fit"
+            onClick={async () => {
+              await api({ internal: true }).post(`/api/logout`);
+              router.refresh();
+            }}
+          >
+            Logout
+          </button>
         </Popup>
       ) : (
         <Fragment>

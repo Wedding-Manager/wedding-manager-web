@@ -1,10 +1,12 @@
 import { parseCookies } from "nookies";
 
 export const isBrowser = () => {
-  return typeof window !== undefined;
+  return typeof window !== "undefined";
 };
 
-export const isLogedIn = () => {
-  const cookies = parseCookies();
-  return !!cookies[`${process.env.ACCESS_TOKEN_KEY}`];
+export const isLogedIn = (cookies?: any) => {
+  const clientKookies = parseCookies();
+  return isBrowser()
+    ? !!clientKookies[`${process.env.ACCESS_TOKEN_KEY}`]
+    : !!cookies;
 };
