@@ -26,7 +26,7 @@ const NavigationBar = () => {
 
   return (
     <Fragment>
-      <nav className="fixed top-0 w-[100%] bg-fuchsia-600 px-4 py-4 flex justify-between items-center">
+      <nav className="fixed top-0 w-[100%] bg-fuchsia-600 px-4 py-4 flex justify-between items-center z-[9999]">
         <Logo />
         <div className="lg:hidden">
           <button

@@ -3,6 +3,9 @@ export type GlobalStoreType = UserBasicData & {
   setIsNavbarMenuOpen: (open: boolean) => void;
   setUser: (data: UserBasicData) => void;
 };
+export type FetchUsersByQuery = {
+  searchInput: string;
+};
 export type UserBasicData = {
   userName: string;
   userId: string;

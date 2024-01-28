@@ -1,7 +1,24 @@
+import { create } from "zustand";
 import { User } from "./global";
 import { UploadImageFormData } from "./upload-files";
 
 type UserOption = { label: string; value: string; data: User };
+
+export type Mention = {
+  id: string;
+  display: string;
+};
+
+export type Comment = {
+  message: string;
+  mentions?: Mention[];
+  _id?: string;
+  replies?: Replies[];
+  created_by?: User;
+  created_on?: string;
+  parent?: string;
+};
+export type Replies = Comment;
 
 export type WeddingFormData = {
   title: string;
@@ -11,6 +28,7 @@ export type WeddingFormData = {
   avenue: string;
   is_public: boolean;
   photo_gallery: UploadImageFormData[];
+  wedding_description: string | Comment;
 };
 
 export type MyWeddingData = {
@@ -29,6 +47,8 @@ export type MyWeddingData = {
   updated_on: string;
   is_public: boolean;
   likes: string[];
+  comments: Comment;
+  wedding_description: Comment;
 };
 
 export type LikeStatus = "Already updated" | "updated";

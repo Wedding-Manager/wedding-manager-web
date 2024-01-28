@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Trigger } from "@/blocks/trigger";
@@ -27,8 +28,16 @@ const Like = (props: { wedding: MyWeddingData }) => {
         isDisabled={isLogedIn()}
         triggerContent={
           <Fragment>
-            <div className={`rounded-xl bg-red-600 w-fit`}>
-              Please login To let like access
+            <div className="rounded-xl border hidden md:block p-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white w-fit">
+              <p className="text-lg font-semibold">
+                Please log in to access the like feature
+              </p>
+              <p className="text-sm mt-2">
+                Logging in allows you to like and interact with content.
+              </p>
+            </div>
+            <div className="rounded-xl border block md:hidden p-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white w-fit">
+              <p className="text-lg font-semibold">Please ,log in</p>
             </div>
           </Fragment>
         }

@@ -5,6 +5,7 @@ import {
   LikeType,
   MyWeddingData,
   WeddingFormData,
+  Comment,
 } from "@/types/weddings";
 import api from "@/utils/api";
 
@@ -16,6 +17,7 @@ export const weddingSubmitHandler = async (
   data: WeddingFormData,
   onSave?: (wedding: { wedding: MyWeddingData }) => void
 ) => {
+  const weddingDescription = data?.wedding_description as unknown as Comment;
   const weddingEndpoint = `/v1/weddings`;
   const payload = {
     ...data,
@@ -25,6 +27,10 @@ export const weddingSubmitHandler = async (
       const { id, ...rest } = p;
       return { ...(rest || {}) };
     }),
+    wedding_description: {
+      ...(weddingDescription || {}),
+      mentions: weddingDescription?.mentions?.map((m) => m.id),
+    },
   };
   try {
     const authCookie = getAuthCookie();
@@ -215,6 +221,43 @@ export const handleLikeChange = debounce(
   },
   500
 );
+export const fetchComments = async (params: { weddingId: string }) => {
+  const { weddingId } = params;
+  const authCookie = getAuthCookie();
+  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
+
+  try {
+    const commentsReq = await api({ authCookie }).get(commentsEndpoint);
+    return commentsReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    throw err;
+  }
+};
+
+export const saveComment = async (params: {
+  weddingId: string;
+  payload: Comment;
+}) => {
+  const { weddingId, payload } = params;
+  const authCookie = getAuthCookie();
+  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
+  const commentPayload = {
+    ...payload,
+    mentions: payload?.mentions?.map((ele) => ele?.id) || [],
+  };
+
+  try {
+    const commentsReq = await api({ authCookie }).post(
+      commentsEndpoint,
+      commentPayload
+    );
+    return commentsReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    throw err;
+  }
+};
 
 export const useWeddingsStore = create<GlobalStoreType>((set) => {
   return {
