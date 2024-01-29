@@ -12,7 +12,7 @@ export default function UploadImage(props: UploadImageProps): JSX.Element {
     name: `${parentName}`,
     control: control,
   });
-  const defaultTitle = watch(`title`);
+  const defaultTitle = watch()?.title;
 
   return (
     <div>
@@ -23,7 +23,7 @@ export default function UploadImage(props: UploadImageProps): JSX.Element {
             is_public: false,
             url: result?.info?.url,
             type: "wedding",
-            title: defaultTitle,
+            title: defaultTitle || result?.info?.original_filename,
           });
         }}
       >
@@ -63,7 +63,9 @@ export default function UploadImage(props: UploadImageProps): JSX.Element {
               <div className={`py-3`}>
                 <span>{`${index + 1}.`}</span>
                 <input
-                  {...register(`${parentName}.${index}.title`)}
+                  {...register(`${parentName}.${index}.title`, {
+                    required: { value: true, message: "Title is bRequired" },
+                  })}
                   defaultValue={image?.title}
                   className="border-none	"
                   placeholder="Give title..."

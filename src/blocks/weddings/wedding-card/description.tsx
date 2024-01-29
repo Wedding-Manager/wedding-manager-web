@@ -6,7 +6,7 @@ function MarriageDescription(props: { description: string }) {
   const { description } = props;
 
   return (
-    <div>
+    <div className={``}>
       <MentionsInput
         value={description}
         className={mentionStyle[`mentionsInput`]}

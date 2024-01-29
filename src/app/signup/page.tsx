@@ -103,7 +103,9 @@ function SignUp() {
             />
             <DropDown
               control={control as unknown as Control<FieldValues>}
+              errorMessage={errors?.gender?.message}
               name="gender"
+              isInvalid={!!errors?.gender}
               options={[
                 {
                   label: "Male",
@@ -114,6 +116,9 @@ function SignUp() {
                   value: "female",
                 },
               ]}
+              rules={{
+                required: { value: true, message: "Gender is Required" },
+              }}
               label="Gender"
             />
             <CustomInput

@@ -5,7 +5,8 @@ const controlStyles: CSSProperties = {};
 const containerStyles: CSSProperties = {
   border: "1px solid black",
   position: "relative",
-  maxWidth: "50%",
+  maxWidth: "100%",
+  width: "100%",
 };
 const menuStyles: CSSProperties = {
   border: "1px solid black",

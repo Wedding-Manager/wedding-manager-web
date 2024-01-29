@@ -2,17 +2,30 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
+import React, { Fragment } from "react";
 import { MyWeddingData } from "@/types/weddings";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { DEFAULT_WEDDING_DESCRIPTION } from "@/app/weddings/create/constants";
+import ClImgLoader from "../clgI-image/loader";
+import MarriageDescriptionLoader from "./description-loader";
+import FooterLoader from "./footer-loader";
 
-const Like = dynamic(() => import("../like"), { ssr: false });
-const Comments = dynamic(() => import("../comment"), { ssr: false });
-const ClgImg = dynamic(() => import("../clgI-image/page"), { ssr: false });
+const SocialInteractionBlock = dynamic(() => import("./bottom-footer"), {
+  ssr: false,
+  loading: () => <FooterLoader />,
+});
+const ClgImg = dynamic(() => import("../clgI-image/page"), {
+  ssr: false,
+  loading: () => (
+    <div>
+      <ClImgLoader />
+    </div>
+  ),
+});
 const MarriageDescription = dynamic(() => import("./description"), {
   ssr: false,
+  loading: () => <MarriageDescriptionLoader />,
 });
 
 function WeddingCard(props: { wedding: MyWeddingData }) {
@@ -63,7 +76,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
           {wedding?.title}
         </text>
         <div className={`h-[380px]`}>
-          <p className={`max-h-[320px] text-ellipsis overflow-auto`}>
+          <p className={`h-[380px] text-ellipsis overflow-auto`}>
             <MarriageDescription
               description={
                 wedding?.wedding_description?.message ||
@@ -72,10 +85,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
             />
           </p>
         </div>
-        <div className={`flex gap-6`}>
-          <Like wedding={wedding} />
-          <Comments wedding={wedding} />
-        </div>
+        <SocialInteractionBlock wedding={wedding} />
       </div>
     </div>
   );
