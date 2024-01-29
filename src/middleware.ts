@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
   if (
     !isLogedIn(ACCESS_TOKEN) &&
     !url.pathname.includes("/login") &&
+    !url.pathname.includes("/signup") &&
     url.pathname !== "/"
   ) {
     url.search = `next=${url.pathname}`;
