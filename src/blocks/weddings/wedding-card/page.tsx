@@ -10,6 +10,7 @@ import { DEFAULT_WEDDING_DESCRIPTION } from "@/app/weddings/create/constants";
 import ClImgLoader from "../clgI-image/loader";
 import MarriageDescriptionLoader from "./description-loader";
 import FooterLoader from "./footer-loader";
+import dayjs from "dayjs";
 
 const SocialInteractionBlock = dynamic(() => import("./bottom-footer"), {
   ssr: false,
@@ -61,7 +62,7 @@ function WeddingCard(props: { wedding: MyWeddingData }) {
           <div
             className={`block overflow-hidden text-ellipsis whitespace-nowrap`}
           >
-            Date :<b>{wedding?.wedding_date}</b>{" "}
+            Date :<b>{dayjs(wedding?.wedding_date).format("MMMM D, YYYY")}</b>
           </div>
           <div
             className={`block overflow-hidden text-ellipsis whitespace-nowrap`}

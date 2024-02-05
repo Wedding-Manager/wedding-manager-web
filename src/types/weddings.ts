@@ -49,6 +49,7 @@ export type MyWeddingData = {
   likes: string[];
   comments: Comment;
   wedding_description: Comment;
+  access_control?: string[];
 };
 
 export type LikeStatus = "Already updated" | "updated";
@@ -72,6 +73,7 @@ export type MyWeddingGuestsProps = {
   weddingId: string;
   searchParams: { [query: string]: string };
   userWeddingInvitations?: Invitation[];
+  accessControl?: string[];
 };
 export type InvitationStatus = "invited" | "accepted" | "rejected" | "";
 

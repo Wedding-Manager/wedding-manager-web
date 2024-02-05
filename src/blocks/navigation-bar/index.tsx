@@ -87,7 +87,7 @@ const NavigationBar = () => {
             </svg>
           </li>
           <li>
-            <NavItem href={"#"} label={"Invitations"} />
+            <NavItem href={"/invitations/dashboard"} label={"Invitations"} />
           </li>
         </ul>
 

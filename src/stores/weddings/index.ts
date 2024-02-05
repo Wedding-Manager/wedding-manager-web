@@ -54,7 +54,7 @@ export const fetchMyWeddings = async (
   try {
     const weddingRequest = await api({ authCookie }).get(weddingsEndpoint);
 
-    return weddingRequest?.data;
+    return weddingRequest?.data || [];
   } catch {
     return new Promise((resolve) => {
       resolve([] as unknown as MyWeddingData[]);

@@ -9,12 +9,14 @@ import { Invitation, MyWeddingGuestsProps } from "@/types/weddings";
 import React, { Fragment, useEffect, useState } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-import { GUSET_TABLE_COLUMNS } from "./constants";
+import { GUSET_TABLE_COLUMNS, INVITE_ACCESS_CONTROL } from "./constants";
 import { isLogedIn } from "@/utils/run-time";
 import InvitationModal from "../../invitation-modal/page";
 
 function MyWeddingGuests(props: MyWeddingGuestsProps) {
-  const { weddingId, userWeddingInvitations } = props;
+  const { weddingId, userWeddingInvitations, accessControl } = props;
+  const [invitations, setInvitations] = useState<Invitation[]>();
+  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState<boolean>();
   const router = useRouter();
   const searchParam = useSearchParams();
   const isInvitationPending = userWeddingInvitations?.some(
@@ -23,8 +25,9 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
   const isInvited =
     searchParam?.get("guest_id")?.length ||
     searchParam?.get("guest_email")?.length;
-  const [invitations, setInvitations] = useState<Invitation[]>();
-  const [isInvitationModalOpen, setIsInvitationModalOpen] = useState<boolean>();
+  const canInvite = accessControl?.some(
+    (access) => access === INVITE_ACCESS_CONTROL
+  );
   useEffect(() => {
     const updateGuests = async () => {
       const guests = await fetchInvitations(weddingId);
@@ -86,7 +89,7 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
             </button>
           </Fragment>
         ) : null}
-        {isLogedIn() ? (
+        {isLogedIn() && canInvite ? (
           <button
             className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg`}
             onClick={async (e) => {

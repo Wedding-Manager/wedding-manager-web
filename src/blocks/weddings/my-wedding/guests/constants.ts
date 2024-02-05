@@ -1,6 +1,8 @@
 import { User } from "@/types/global";
 import { Invitation } from "@/types/weddings";
 
+export const INVITE_ACCESS_CONTROL = "invite_guest";
+
 export const GUSET_TABLE_COLUMNS = [
   {
     heading: "Sr.No",

@@ -1,0 +1,47 @@
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 100%;
+  border-bottom: 1px solid gray;
+  margin-block: 20px;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.container {
+  padding: 2px 16px;
+}
+.card-wrapper {
+  width: 100%;
+}
+.mentions__mention {
+  position: relative;
+  z-index: 1;
+  color: blue;
+  text-shadow: 1px 1px 1px white, 1px -1px 1px white, -1px 1px 1px white,
+    -1px -1px 1px white;
+  text-decoration: underline;
+  pointer-events: none;
+}
+
+/* ShimmerEffect.module.scss */
+.shimmer {
+  display: block;
+  width: 100%;
+  height: 380px;
+  background-color: #f0f0f0; /* Shimmer color */
+  background-repeat: no-repeat;
+  background-size: 200% auto;
+  animation: shimmerAnimation 1.5s infinite linear;
+}
+
+@keyframes shimmerAnimation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
