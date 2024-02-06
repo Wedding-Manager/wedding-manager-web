@@ -22,9 +22,11 @@ function MyWeddingGuests(props: MyWeddingGuestsProps) {
   const isInvitationPending = userWeddingInvitations?.some(
     (invitation) => invitation?.status === "invited"
   );
+
   const isInvited =
-    searchParam?.get("guest_id")?.length ||
-    searchParam?.get("guest_email")?.length;
+    !isLogedIn() &&
+    (searchParam?.get("guest_id")?.length ||
+      searchParam?.get("guest_email")?.length);
   const canInvite = accessControl?.some(
     (access) => access === INVITE_ACCESS_CONTROL
   );

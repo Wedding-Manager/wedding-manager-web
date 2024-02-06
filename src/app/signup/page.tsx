@@ -11,6 +11,7 @@ import DropDown from "../../components/dropdown";
 import UserLookup from "../../components/look-up";
 import SubmitButton from "../../components/button";
 import { getEmailfromUrl } from "@/utils/query";
+import { useGlobalStore } from "@/stores/global";
 
 function SignUp() {
   const {
@@ -21,6 +22,8 @@ function SignUp() {
     setValue,
     formState: { errors },
   } = useForm<UserData>();
+  const user = useGlobalStore();
+  const { setUser } = user as any;
   const router = useRouter();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next");
@@ -47,9 +50,11 @@ function SignUp() {
         children: data?.family?.children?.map((c) => c?.value),
       },
     };
-    const endpoint = `/api/sign-up`;
+    const endpoint = `/api/signup`;
     try {
-      const request = await api({ internal: true }).post(endpoint, payload);
+      const req = await api({ internal: true }).post(endpoint, payload);
+      const data = req?.data;
+      setUser({ userName: data?.name, userId: data?.id, userRole: "" });
       if (nextUrl?.length) {
         router.push(nextUrl);
       } else {

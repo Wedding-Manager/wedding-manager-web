@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isLogedIn } from "./utils/run-time";
+import { WEDDING_URL_REGEX } from "./constants/global";
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -11,7 +12,8 @@ export function middleware(request: NextRequest) {
     !isLogedIn(ACCESS_TOKEN) &&
     !url.pathname.includes("/login") &&
     !url.pathname.includes("/signup") &&
-    url.pathname !== "/"
+    url.pathname !== "/" &&
+    !WEDDING_URL_REGEX?.test(url.pathname)
   ) {
     url.search = `next=${url.pathname}`;
     url.pathname = `/login`;
