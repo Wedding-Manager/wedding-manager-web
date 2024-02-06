@@ -2,9 +2,9 @@
 "use client";
 import CustomInput from "@/components/input";
 import { UserData } from "@/types/signup";
-import api from "@/utils/api";
+
 import Script from "next/script";
-import React, { BaseSyntheticEvent, FormEvent, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Control, FieldValues, useFieldArray, useForm } from "react-hook-form";
 import DropDown from "../../components/dropdown";
@@ -12,6 +12,8 @@ import UserLookup from "../../components/look-up";
 import SubmitButton from "../../components/button";
 import { getEmailfromUrl } from "@/utils/query";
 import { useGlobalStore } from "@/stores/global";
+import { handleSignUpSubmit } from "@/stores/login";
+import ErrorPopup from "@/components/error-popup";
 
 function SignUp() {
   const {
@@ -20,11 +22,12 @@ function SignUp() {
     watch,
     control,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UserData>();
   const user = useGlobalStore();
   const { setUser } = user as any;
   const router = useRouter();
+  const [signupError, setSignupError] = useState<string | undefined>();
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next");
   const { fields, append } = useFieldArray({
@@ -33,37 +36,6 @@ function SignUp() {
   });
   const isFemale = watch("gender")?.value === "female";
 
-  const handleSignUpSubmit = async (
-    data: UserData,
-    event: BaseSyntheticEvent<object, any, any> | undefined
-  ) => {
-    event!.stopPropagation();
-    event!.preventDefault();
-    const payload = {
-      ...data,
-      gender: data?.gender?.value,
-      family: {
-        husband: data?.family?.husband?.value,
-        father: data?.family?.father?.value,
-        mother: data?.family?.mother?.value,
-        wife: data?.family?.wife?.value,
-        children: data?.family?.children?.map((c) => c?.value),
-      },
-    };
-    const endpoint = `/api/signup`;
-    try {
-      const req = await api({ internal: true }).post(endpoint, payload);
-      const data = req?.data;
-      setUser({ userName: data?.name, userId: data?.id, userRole: "" });
-      if (nextUrl?.length) {
-        router.push(nextUrl);
-      } else {
-        router.push("/");
-      }
-    } catch (err) {
-      console.log("ERROR", err);
-    }
-  };
   useEffect(() => {
     if (nextUrl?.length) {
       const email = getEmailfromUrl(nextUrl);
@@ -76,8 +48,39 @@ function SignUp() {
       <Script id="sign-up">
         <title>Sign up</title>
       </Script>
-      <form onSubmit={handleSubmit(handleSignUpSubmit)}>
+      <form
+        onSubmit={handleSubmit((_, e) => {
+          e?.stopPropagation();
+          e?.preventDefault();
+          handleSignUpSubmit(_, {
+            onSuccess: (data) => {
+              setUser({ userName: data?.name, userId: data?.id, userRole: "" });
+              if (nextUrl?.length) {
+                router.push(nextUrl);
+              } else {
+                router.push("/");
+              }
+            },
+            onError: (error) => {
+              setSignupError(error?.errorMessage?.replace('"', ""));
+              console.log(
+                "ERROR_SIGNUP",
+                error?.errorMessage?.replace('"', "")
+              );
+            },
+          });
+        })}
+      >
         <section id="self-details" className="px-2 md:px-10 mt-20">
+          {!!signupError && (
+            <ErrorPopup
+              isOpen={!!signupError}
+              message={signupError}
+              onClose={() => {
+                setSignupError(undefined);
+              }}
+            />
+          )}
           <div className="mb-4 text-xl ">Basic Info</div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full pl-5  md:pl-20 border-2 border-gray-700 py-10">
             <CustomInput
@@ -263,7 +266,7 @@ function SignUp() {
           </div>
         </section>
 
-        <SubmitButton />
+        <SubmitButton isLoading={isSubmitting} />
       </form>
     </div>
   );

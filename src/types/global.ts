@@ -39,3 +39,9 @@ export type PageProps = {
   params: { [route: string]: string };
   searchParams: { [query: string]: string };
 };
+
+export type ErrorPopProps = {
+  message: string;
+  isOpen: boolean;
+  onClose: () => void;
+};

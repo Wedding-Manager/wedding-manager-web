@@ -7,9 +7,7 @@ export async function POST(request: Request) {
 
   try {
     const payload = await request?.json();
-
     const singupRequest = await api().post(signupEndpoint, payload);
-
     const authCookie = buildCookie({
       name: process.env.ACCESS_TOKEN_KEY!,
       value: singupRequest?.headers?.["x-auth-token"],
@@ -27,10 +25,6 @@ export async function POST(request: Request) {
       } as unknown as HeadersInit,
     });
   } catch (err: any) {
-    console.log("ERROR_SIGNUP", err);
-    return NextResponse.json(
-      { error: err?.response?.data },
-      { status: err?.status || 400 }
-    );
+    return NextResponse.json(err, { status: err?.status || 400 });
   }
 }

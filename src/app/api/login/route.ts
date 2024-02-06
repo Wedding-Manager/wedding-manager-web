@@ -26,9 +26,6 @@ export async function POST(request: Request) {
       } as unknown as HeadersInit,
     });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: err?.response?.data },
-      { status: err?.status || 400 }
-    );
+    return NextResponse.json(err, { status: err?.status || 400 });
   }
 }

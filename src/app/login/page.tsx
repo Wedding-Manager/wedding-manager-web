@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import Popup from "reactjs-popup";
 import { PopupActions } from "reactjs-popup/dist/types";
 import { useRouter, useSearchParams } from "next/navigation";
+import ErrorPopup from "@/components/error-popup";
 
 function Login() {
   const {
@@ -19,6 +20,7 @@ function Login() {
   const user = useGlobalStore();
   const { setUser, userName } = user as any;
   const router = useRouter();
+  const [signinError, setSigninError] = useState<string | undefined>();
 
   const searchParams = useSearchParams();
   const nextUrl = searchParams?.get("next");
@@ -32,6 +34,15 @@ function Login() {
       <Popup ref={loginInfoPopup as unknown as Ref<PopupActions>}>
         <div className={`bg-lime-500 p-6`}>{`Welcome Back ${userName}`}</div>
       </Popup>
+      {!!signinError && (
+        <ErrorPopup
+          isOpen={!!signinError}
+          message={signinError}
+          onClose={() => {
+            setSigninError(undefined);
+          }}
+        />
+      )}
 
       <form
         onSubmit={handleSubmit((_) =>
@@ -48,6 +59,9 @@ function Login() {
               } else {
                 router.push("/");
               }
+            },
+            onError: (error) => {
+              setSigninError(error?.errorMessage?.replace('"', ""));
             },
           })
         )}
