@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import NavigationBar from "../blocks/navigation-bar";
 import variables from "../app/variables.module.scss";
+import Head from "next/head";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +20,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      {/* <!-- Google tag (gtag.js) --> */}
+      <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-7502ZB6M9M"
+      ></Script>
+      <Script id="google-analytics">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-7502ZB6M9M');
+  
+       `}
+      </Script>
+
       <body className={`${inter.className} max-h-[100vh]`}>
         <NavigationBar />
         <div

@@ -4,16 +4,19 @@ import { formatCommentDate } from "@/stores/comments";
 import { fetchComments, saveComment } from "@/stores/weddings";
 import { MyWeddingData, Comment } from "@/types/weddings";
 import { CloseCircle, Messages2, Send } from "iconsax-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Mention, MentionsInput } from "react-mentions";
 import Popup from "reactjs-popup";
 import Comments from "./comment";
 import { isLogedIn } from "@/utils/run-time";
+import webSocket from "@/utils/websocket";
+import { getAuthCookie } from "@/utils/cookies";
 
 function CommentsBox(props: { wedding: MyWeddingData }) {
   const { wedding } = props;
   const [comments, setComments] = useState<Comment[]>();
   const [newComment, setNewComment] = useState<Comment>();
+  const webSocketRef = useRef<any>();
 
   const totalComments = comments?.reduce(
     (totalCount, comment) => totalCount + 1 + (comment?.replies?.length || 0),
@@ -34,24 +37,49 @@ function CommentsBox(props: { wedding: MyWeddingData }) {
   }) => {
     if (!isLogedIn()) return;
     const { payload } = params;
+    const commentPayload = {
+      ...payload,
+      mentions: payload?.mentions?.map((ele) => ele?.id) || [],
+    };
+
     try {
-      await saveComment({ weddingId: wedding?._id, payload });
-      updateComments();
+      webSocketRef.current.send(JSON.stringify(commentPayload));
     } catch (err) {
       console.log("ERROR", err);
     }
   };
 
-  const updateComments = async () => {
-    try {
-      const comments = await fetchComments({ weddingId: wedding?._id });
-      setComments(comments);
-    } catch (err) {
-      console.log("ERROR", err);
-    }
-  };
   useEffect(() => {
-    updateComments();
+    // Establish WebSocket connection when component mounts
+    const ws = webSocket({
+      query: {
+        type: "comment",
+        weddingId: wedding?._id,
+        auth: getAuthCookie(),
+      },
+    });
+    webSocketRef.current = ws;
+    ws.onopen = () => {
+      console.log("WebSocket connected");
+      // setSocket(ws);
+    };
+
+    ws.onmessage = (event) => {
+      // setMessage(event.data);
+      setComments(JSON.parse(event.data));
+    };
+
+    ws.onclose = () => {
+      console.log("WebSocket disconnected");
+      // setSocket(null);
+    };
+
+    // Clean up WebSocket connection when component unmounts
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
   }, []);
 
   return (

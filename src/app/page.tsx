@@ -5,11 +5,11 @@ import { cookies } from "next/headers";
 
 const MyWeddings = async () => {
   const authCookie = cookies().get(process.env.ACCESS_TOKEN_KEY!)?.value;
-  const myWeddings = await fetchPublicWeddings(authCookie);
+  const weddingCollections = await fetchPublicWeddings(authCookie);
 
   return (
     <div className="flex flex-col items-center  w-full px-2 sm:px-10 md:px-20 ">
-      {myWeddings?.map((wedding) => {
+      {weddingCollections?.map((wedding) => {
         return (
           <Fragment key={wedding?._id}>
             <WeddingCard wedding={wedding} />

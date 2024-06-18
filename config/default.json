@@ -8,6 +8,9 @@
     },
     "SECRET_KEYS": {
         "CLOUDINARY_PRESET_NAME": "WeddingManager",
-        "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME": "shekhar-kummari"
+        "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME": "shekhar-kummari",
+        "GOOGLE_ANLYTICS_STREAM_NAME": "wedding-manager",
+        "GOOGLE_ANLYTICS_STREAM_ID": "7562309280",
+        "GOOGLE_ANLYTICS_STREAM_MEASUREMENT_ID": "G-7502ZB6M9M"
     }
 }
