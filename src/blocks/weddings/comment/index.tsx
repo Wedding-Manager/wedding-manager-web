@@ -55,8 +55,8 @@ function CommentsBox(props: { wedding: MyWeddingData }) {
       query: {
         type: "comment",
         weddingId: wedding?._id,
-        auth: getAuthCookie(),
       },
+      url: "/ws/comment",
     });
     webSocketRef.current = ws;
     ws.onopen = () => {

@@ -1,14 +1,13 @@
 "use client";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import Logo from "../../components/logos/app-logo";
 import NavItem from "./nav-item/page";
-import variables from "../../app/variables.module.scss";
 
 import dynamic from "next/dynamic";
 import { useGlobalStore } from "@/stores/global";
 import NavItemMobile from "./nav-item-mobile/page";
 import { isLogedIn } from "@/utils/run-time";
-import Link from "next/link";
+import webSocket from "@/utils/websocket";
 const UserProfile = dynamic(() => import("./profile/page"), { ssr: false });
 const UserProfileMobile = dynamic(() => import("./profile-mobile/page"), {
   ssr: false,
@@ -18,11 +17,39 @@ const NavigationBar = () => {
   const { isNavbarMenuOpen: isMenuOpen, setIsNavbarMenuOpen: setIsMenuOpen } =
     useGlobalStore();
   const isUserLogedIn = isLogedIn();
+  const webSocketRef = useRef<any>();
   const toggleMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     e.preventDefault();
     setIsMenuOpen(!isMenuOpen);
   };
+  useEffect(() => {
+    // Establish WebSocket connection when component mounts
+    const ws: any = isUserLogedIn
+      ? webSocket({
+          query: {},
+          url: "/ws/user/status",
+        })
+      : {};
+    webSocketRef.current = ws;
+    ws.onopen = () => {
+      console.log("you are connected");
+    };
+
+    ws.onmessage = (event: { data: string }) => {
+      console.log(JSON.parse(event.data));
+    };
+
+    ws.onclose = () => {
+      console.log("we are disconnection");
+    };
+
+    return () => {
+      if (ws) {
+        ws.close?.();
+      }
+    };
+  }, []);
 
   return (
     <Fragment>
