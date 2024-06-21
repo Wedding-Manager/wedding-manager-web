@@ -6,4 +6,5 @@ export type CommentBoxProps = {
   handleCommentChange: (newValue: string, mentions: string[]) => void;
   placeholder?: string;
   style?: React.CSSProperties;
+  title?: string;
 } & any;

@@ -1,5 +1,8 @@
 import { getTimeFromNow } from "@/utils/date";
 import { fetchUsersByQuery } from "../global";
+import { MyWeddingData, Comment } from "@/types/weddings";
+import { getAuthCookie } from "@/utils/cookies";
+import api from "@/utils/api";
 
 export const fetchUserMentions = async (searchInput: any, callBack: any) => {
   try {
@@ -22,4 +25,52 @@ export const formatCommentDate = (commentDate: string) => {
   }, " ");
 
   return formatedTime + " ago";
+};
+export const fetchWeedingComments = async (args: {
+  weddingId: string;
+}): Promise<Comment[]> => {
+  const { weddingId } = args;
+  const authCookie = getAuthCookie();
+  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
+
+  try {
+    const commentsReq = await api({ authCookie }).get(commentsEndpoint);
+    return commentsReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    throw [];
+  }
+};
+
+export const saveComment = async (params: {
+  weddingId: string;
+  payload: Comment;
+}) => {
+  const { weddingId, payload } = params;
+  const authCookie = getAuthCookie();
+  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
+  const commentPayload = {
+    ...payload,
+    mentions: payload?.mentions?.map((ele) => ele?.id) || [],
+  };
+
+  try {
+    const commentsReq = await api({ authCookie }).post(
+      commentsEndpoint,
+      commentPayload
+    );
+    return commentsReq?.data;
+  } catch (err) {
+    console.log("ERROR", err);
+    throw err;
+  }
+};
+
+export const getCommentsTotal = (args: { comments: Comment[] }): number => {
+  const { comments } = args;
+  const totalComments = comments?.reduce(
+    (totalCount, comment) => totalCount + 1 + (comment?.replies?.length || 0),
+    0
+  );
+  return totalComments;
 };

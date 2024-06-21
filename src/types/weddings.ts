@@ -47,7 +47,7 @@ export type MyWeddingData = {
   updated_on: string;
   is_public: boolean;
   likes: string[];
-  comments: Comment;
+  comments: Comment[];
   wedding_description: Comment;
   access_control?: string[];
 };

@@ -221,43 +221,6 @@ export const handleLikeChange = debounce(
   },
   500
 );
-export const fetchComments = async (params: { weddingId: string }) => {
-  const { weddingId } = params;
-  const authCookie = getAuthCookie();
-  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
-
-  try {
-    const commentsReq = await api({ authCookie }).get(commentsEndpoint);
-    return commentsReq?.data;
-  } catch (err) {
-    console.log("ERROR", err);
-    throw err;
-  }
-};
-
-export const saveComment = async (params: {
-  weddingId: string;
-  payload: Comment;
-}) => {
-  const { weddingId, payload } = params;
-  const authCookie = getAuthCookie();
-  const commentsEndpoint = `/v1/comments/wedding/${weddingId}`;
-  const commentPayload = {
-    ...payload,
-    mentions: payload?.mentions?.map((ele) => ele?.id) || [],
-  };
-
-  try {
-    const commentsReq = await api({ authCookie }).post(
-      commentsEndpoint,
-      commentPayload
-    );
-    return commentsReq?.data;
-  } catch (err) {
-    console.log("ERROR", err);
-    throw err;
-  }
-};
 
 export const useWeddingsStore = create<GlobalStoreType>((set) => {
   return {

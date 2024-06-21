@@ -2,6 +2,7 @@ import WeddingCard from "@/blocks/weddings/wedding-card/page";
 import { fetchPublicWeddings } from "@/stores/weddings";
 import React, { Fragment } from "react";
 import { cookies } from "next/headers";
+import LazyLoader from "@/components/lazy-component";
 
 const MyWeddings = async () => {
   const authCookie = cookies().get(process.env.ACCESS_TOKEN_KEY!)?.value;
@@ -12,7 +13,9 @@ const MyWeddings = async () => {
       {weddingCollections?.map((wedding) => {
         return (
           <Fragment key={wedding?._id}>
+            {/* <LazyLoader title={wedding?.title} id={wedding._id}> */}
             <WeddingCard wedding={wedding} />
+            {/* </LazyLoader> */}
           </Fragment>
         );
       })}

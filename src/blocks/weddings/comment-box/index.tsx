@@ -7,11 +7,12 @@ import Popup from "reactjs-popup";
 function WeddingStory(
   props: CommentBoxProps & { isInvalid: boolean; errorMessage: string }
 ): JSX.Element {
-  const { message, handleCommentChange, isInvalid, errorMessage } = props;
+  const { message, handleCommentChange, isInvalid, errorMessage, title } =
+    props;
   return (
     <div>
       <div className={`flex items-center gap-7`}>
-        Wedding Story
+        {title ?? "Wedding Story"}
         {isInvalid && (
           <Popup
             key={`input-error`}
@@ -29,6 +30,7 @@ function WeddingStory(
         )}
       </div>
       <CommentBox
+        placeholder="Add Comment..."
         message={message!}
         handleCommentChange={handleCommentChange}
       />
