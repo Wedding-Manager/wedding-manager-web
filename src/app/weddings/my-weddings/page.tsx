@@ -14,7 +14,7 @@ const MyWeddings = async () => {
         <div
           className={`w-full  h-[80vh] flex items-center justify-center flex-col `}
         >
-          No Weddings found
+          No Weddings
           <div className="px-6 py-4">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               <Link href="/weddings/create">+ Create</Link>
